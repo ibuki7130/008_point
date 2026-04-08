@@ -1,0 +1,3 @@
+[submodule "google-auth-system"]
+	path = google-auth-system
+	url = https://github.com/taiyousan15/google-auth-system.git

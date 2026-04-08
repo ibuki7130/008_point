@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-03-16T15:54:24.636Z",
+  "trigger": "pre-compact",
+  "files": {
+    "SESSION_HANDOFF.md": {
+      "content": "# SESSION HANDOFF DOCUMENT\n\n> **CRITICAL**: 次のセッションは必ずこのファイルを読んでから作業を開始すること\n\n**最終更新**: 2026-03-14T04:56:10.552Z\n**作業ディレクトリ**: /Users/matsumototoshihiko/taisun_agent\n\n## 既存スクリプト（MUST READ）\n\n```\n┌─────────────────────────────────────────────────────────┐\n│  「同じワークフロー」指示がある場合、以下を必ず使用    │\n└─────────────────────────────────────────────────────────┘\n```\n\n- `agent_os/runner.py` (7.0KB, 2026/2/16 7:20:42)\n- `dist/scripts/run-benchmarks.js` (9.5KB, 2026/3/9 21:10:34)\n- `generate_10_slides.py` (2.3KB, 2026/2/16 7:20:42)\n- `generate_full_guide.py` (5.0KB, 2026/2/16 7:20:42)\n- `generate_install_slides.py` (2.7KB, 2026/2/16 7:20:42)\n- `scripts/generate-release-approval.sh` (11.4KB, 2026/2/16 7:20:42)\n- `scripts/ollama-process-transcript.sh` (6.2KB, 2026/2/16 7:20:42)\n- `scripts/text_preprocessor.py` (11.2KB, 2026/2/16 7:20:42)\n- `tests/test_runner_retry_stop.py` (1.9KB, 2026/2/16 7:20:42)\n\n## ワークフロー定義\n\n- `config/workflows/content_creation_v1.json`\n- `config/workflows/priority_based_v1.json`\n- `config/workflows/sdr_pipeline_v1.json`\n- `config/workflows/software_development_v1.json`\n- `config/workflows/video_generation_v1.json`\n\n## 次のセッションへの指示\n\n### MUST DO（必須）\n\n1. **このファイルを読む** - 作業開始前に必ず\n2. **既存スクリプトを確認** - 新規作成前にReadツールで読む\n3. **ユーザー指示を優先** - 推測で作業しない\n4. **スキル指定を遵守** - 「〇〇スキルを使って」は必ずSkillツールで\n\n### MUST NOT DO（禁止）\n\n1. **既存ファイルを無視して新規作成** - 絶対禁止\n2. **「シンプルにする」と称して異なる実装** - 絶対禁止\n3. **指定比率を無視した要約** - 絶対禁止\n4. **スキル指示を無視した手動実装** - 絶対禁止\n\n---\n\n*このファイルはセッション終了時に自動生成されます*\n\n<!-- TCPS: /compact 前バックアップ 2026-03-16T15:54 → pre-compact-2026-03-16T15-54-24-598Z.json -->\n",
+      "hash": "5b1a49c827a607cd",
+      "size": 1568,
+      "savedAt": "2026-03-16T15:54:24.636Z"
+    }
+  },
+  "savedCount": 1,
+  "missingCount": 0
+}

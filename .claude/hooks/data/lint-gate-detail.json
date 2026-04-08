@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-02-20T18:08:41.464Z",
+  "fileName": "workflow-01-lead-nurturing.json",
+  "violations": [
+    {
+      "type": "missing_required",
+      "message": "必須フィールド \"phases\" が見つかりません"
+    }
+  ],
+  "warnings": [
+    {
+      "type": "missing_recommended",
+      "message": "推奨フィールド \"version\" がありません"
+    },
+    {
+      "type": "missing_recommended",
+      "message": "推奨フィールド \"description\" がありません"
+    }
+  ]
+}

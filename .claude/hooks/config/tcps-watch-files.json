@@ -1,0 +1,8 @@
+{
+  "description": "TCPS: /compact 前に自動保存するファイルリスト",
+  "watchFiles": [
+    "SESSION_HANDOFF.md",
+    "marketing-hub/scripts/seed-kindle-ai-seminar-lp.ts",
+    "scripts/originals/script-master.md"
+  ]
+}

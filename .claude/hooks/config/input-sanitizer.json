@@ -1,0 +1,149 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "strictMode": false,
+  "description": "Input Sanitizer Guard Configuration - セキュリティリスクのある入力を検出",
+
+  "rules": {
+    "bash": {
+      "enabled": true,
+      "description": "Bashコマンドのセキュリティチェック",
+      "patterns": [
+        {
+          "name": "command-injection-semicolon",
+          "pattern": ";\\s*(rm|wget|curl|bash|sh|nc|netcat)",
+          "severity": "critical",
+          "description": "コマンドインジェクションの可能性があります"
+        },
+        {
+          "name": "command-injection-pipe",
+          "pattern": "\\|\\s*(bash|sh|python|perl|ruby|nc)",
+          "severity": "critical",
+          "description": "パイプ経由のコード実行の可能性があります"
+        },
+        {
+          "name": "dangerous-rm",
+          "pattern": "rm\\s+(-rf?\\s+)?(\\/|~|\\$HOME|\\$PWD|\\.\\.)",
+          "severity": "critical",
+          "description": "危険な削除コマンドです"
+        },
+        {
+          "name": "sudo-usage",
+          "pattern": "\\bsudo\\b",
+          "severity": "warning",
+          "description": "sudo を使用しています。権限昇格に注意してください"
+        },
+        {
+          "name": "curl-exec",
+          "pattern": "curl.*\\|\\s*(bash|sh)",
+          "severity": "critical",
+          "description": "リモートスクリプトの直接実行は危険です"
+        },
+        {
+          "name": "env-exposure",
+          "pattern": "echo\\s+\\$[A-Z_]*KEY|echo\\s+\\$[A-Z_]*SECRET|echo\\s+\\$[A-Z_]*PASSWORD",
+          "severity": "warning",
+          "description": "機密環境変数の出力に注意してください"
+        },
+        {
+          "name": "base64-decode-exec",
+          "pattern": "base64\\s+(-d|--decode).*\\|",
+          "severity": "warning",
+          "description": "Base64デコード後の実行に注意してください"
+        },
+        {
+          "name": "chmod-dangerous",
+          "pattern": "chmod\\s+(777|\\+x)\\s+\\S+\\.sh",
+          "severity": "warning",
+          "description": "スクリプトへの実行権限付与に注意してください"
+        }
+      ]
+    },
+    "file": {
+      "enabled": true,
+      "description": "ファイル操作のセキュリティチェック",
+      "patterns": [
+        {
+          "name": "path-traversal",
+          "pattern": "\\.\\.\\/|\\.\\.\\\\",
+          "severity": "warning",
+          "description": "パストラバーサルの可能性があります"
+        },
+        {
+          "name": "sensitive-file-access",
+          "pattern": "(\\/etc\\/passwd|\\/etc\\/shadow|\\.ssh\\/|id_rsa|\\.env(?!\\.)|\\.aws\\/credentials)",
+          "severity": "critical",
+          "description": "機密ファイルへのアクセスです"
+        },
+        {
+          "name": "system-file-write",
+          "pattern": "^\\/(?:etc|usr|var|bin|sbin)\\/",
+          "severity": "critical",
+          "description": "システムディレクトリへの書き込みは禁止されています"
+        }
+      ]
+    },
+    "content": {
+      "enabled": true,
+      "description": "コンテンツ内の機密情報チェック",
+      "patterns": [
+        {
+          "name": "hardcoded-secret",
+          "pattern": "(api[_-]?key|secret[_-]?key|password|access[_-]?token)\\s*[=:]\\s*[\"'][^\"']{8,}[\"']",
+          "severity": "critical",
+          "description": "ハードコードされた機密情報が含まれています",
+          "flags": "i"
+        },
+        {
+          "name": "aws-key",
+          "pattern": "AKIA[0-9A-Z]{16}",
+          "severity": "critical",
+          "description": "AWS Access Key IDが含まれています"
+        },
+        {
+          "name": "private-key",
+          "pattern": "-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----",
+          "severity": "critical",
+          "description": "秘密鍵が含まれています"
+        },
+        {
+          "name": "jwt-token",
+          "pattern": "eyJ[A-Za-z0-9-_]+\\.eyJ[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+",
+          "severity": "warning",
+          "description": "JWTトークンが含まれています"
+        }
+      ]
+    }
+  },
+
+  "whitelist": {
+    "paths": [
+      "./"
+    ],
+    "commands": [
+      "npm test",
+      "npm run build",
+      "git status",
+      "git diff"
+    ],
+    "browserAutomation": {
+      "description": "ブラウザ自動化（playwright/stagehand）で許可するドメインホワイトリスト",
+      "allowedDomains": [
+        "localhost",
+        "127.0.0.1",
+        "*.anthropic.com",
+        "*.github.com",
+        "*.vercel.app",
+        "*.netlify.app"
+      ],
+      "blockedDomains": [
+        "accounts.google.com",
+        "login.microsoftonline.com",
+        "appleid.apple.com",
+        "*.okta.com",
+        "*.auth0.com"
+      ],
+      "note": "blockedDomains は TOS違反リスク（自動ログイン禁止）のあるOAuth/SSOプロバイダー。ホワイトリストにない場合は警告を出す（ブロックしない）"
+    }
+  }
+}

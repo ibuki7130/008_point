@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "created": "2026-02-15T13:13:16.376Z",
+  "updated": "2026-02-15T13:16:08.296Z",
+  "entries": {
+    "skill:video-course": {
+      "type": "skill",
+      "name": "video-course",
+      "count": 1,
+      "firstUsed": "2026-02-15T13:13:16.377Z",
+      "lastUsed": "2026-02-15T13:13:16.377Z",
+      "sessions": [
+        "unknown"
+      ]
+    },
+    "skill:mega-research": {
+      "type": "skill",
+      "name": "mega-research",
+      "count": 1,
+      "firstUsed": "2026-02-15T13:13:16.403Z",
+      "lastUsed": "2026-02-15T13:13:16.404Z",
+      "sessions": [
+        "unknown"
+      ]
+    },
+    "command:help-advanced": {
+      "type": "command",
+      "name": "help-advanced",
+      "count": 1,
+      "firstUsed": "2026-02-15T13:13:16.428Z",
+      "lastUsed": "2026-02-15T13:13:16.428Z",
+      "sessions": [
+        "unknown"
+      ]
+    },
+    "test:validate-test": {
+      "type": "test",
+      "name": "validate-test",
+      "count": 2,
+      "firstUsed": "2026-02-15T13:13:42.544Z",
+      "lastUsed": "2026-02-15T13:16:08.295Z",
+      "sessions": [
+        "unknown"
+      ]
+    }
+  }
+}

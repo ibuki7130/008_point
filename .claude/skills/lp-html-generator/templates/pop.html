@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: linear-gradient(135deg, #FFF0F6 0%, #F0F7FF 50%, #F0FFF4 100%);
+    overflow: hidden;
+  }
+  .top-bar {
+    background: linear-gradient(90deg, #FF6B9D, #FF8E53);
+    color: #FFFFFF;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 0 0 20px 20px;
+    margin: 0 20px;
+  }
+  .hero {
+    padding: 40px 60px 20px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    background: #FFD93D;
+    color: #333333;
+    padding: 8px 24px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 0 #E6B800;
+  }
+  .hero h1 {
+    font-size: 54px;
+    color: #FF6B9D;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    font-weight: 900;
+    text-shadow: 3px 3px 0 rgba(255, 107, 157, 0.15);
+  }
+  .hero .subtitle {
+    font-size: 22px;
+    color: #555555;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+  .cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF6B9D, #FF8E53);
+    color: #FFFFFF;
+    padding: 20px 56px;
+    border-radius: 50px;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 6px 0 rgba(255, 107, 157, 0.4);
+    letter-spacing: 0.05em;
+  }
+  .dots {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 24px;
+    color: #FFD93D;
+    letter-spacing: 8px;
+  }
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(90deg, #FF6B9D, #FF8E53);
+    color: #FFFFFF;
+    padding: 14px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 20px 20px 0 0;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="top-bar">{{topBarText}}</div>
+  <div class="hero">
+    <div class="badge">{{preHeadline}}</div>
+    <h1>{{headline}}</h1>
+    <p class="subtitle">{{subtitle}}</p>
+    <a class="cta-button">{{ctaText}}</a>
+  </div>
+  <div class="dots">★ ★ ★</div>
+  <div class="bottom-bar">{{bottomBarText}}</div>
+</body>
+</html>

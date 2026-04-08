@@ -1,0 +1,180 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: '22.x'
+
+jobs:
+  # ============================================
+  # Build & Package
+  # ============================================
+  build:
+    name: Build & Package
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      changelog: ${{ steps.changelog.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Get version
+        id: get-version
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [[ -n "$PREV_TAG" ]]; then
+            CHANGES=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s" --no-merges)
+          else
+            CHANGES=$(git log --pretty=format:"- %s" --no-merges -20)
+          fi
+          echo "changes<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create release package
+        run: |
+          VERSION="${{ steps.get-version.outputs.version }}"
+          PACKAGE_NAME="taisun_agent-${VERSION}"
+          mkdir -p "release/${PACKAGE_NAME}"
+
+          # Copy distributable files (exclude secrets and dev artifacts)
+          rsync -a --exclude='.git' \
+                   --exclude='node_modules' \
+                   --exclude='.env' \
+                   --exclude='.env.*' \
+                   --exclude='*.local' \
+                   --exclude='.claude/hooks/data/*.json' \
+                   --exclude='.claude/hooks/data/*.jsonl' \
+                   --exclude='research/runs/' \
+                   --exclude='coverage/' \
+                   --exclude='dist/' \
+                   . "release/${PACKAGE_NAME}/"
+
+          # Embed version
+          echo "$VERSION" > "release/${PACKAGE_NAME}/VERSION"
+
+          # Create archives
+          cd release
+          tar -czf "${PACKAGE_NAME}.tar.gz" "${PACKAGE_NAME}"
+          zip -r "${PACKAGE_NAME}.zip" "${PACKAGE_NAME}" -x "*.DS_Store"
+
+          # SHA256 checksums
+          sha256sum "${PACKAGE_NAME}.tar.gz" > "${PACKAGE_NAME}.sha256"
+          sha256sum "${PACKAGE_NAME}.zip" >> "${PACKAGE_NAME}.sha256"
+
+          echo "📦 Package created: ${PACKAGE_NAME}.tar.gz / ${PACKAGE_NAME}.zip"
+          ls -lh .
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ steps.get-version.outputs.version }}
+          path: release/
+          retention-days: 30
+
+  # ============================================
+  # Create GitHub Release
+  # ============================================
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-${{ needs.build.outputs.version }}
+          path: release/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.build.outputs.version }}
+          name: taisun_agent ${{ needs.build.outputs.version }}
+          prerelease: ${{ inputs.prerelease || false }}
+          body: |
+            ## What's Changed
+
+            ${{ needs.build.outputs.changelog }}
+
+            ## Installation
+
+            ### macOS / Linux
+
+            ```bash
+            curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | bash
+            ```
+
+            ### Windows (PowerShell)
+
+            ```powershell
+            irm https://raw.githubusercontent.com/${{ github.repository }}/main/install.ps1 | iex
+            ```
+
+            ### Manual Download
+
+            Download the archive below and extract it.
+
+            ## Verification
+
+            ```bash
+            sha256sum -c taisun_agent-${{ needs.build.outputs.version }}.sha256
+            ```
+
+            ---
+            🤖 Generated with [Claude Code](https://claude.com/claude-code)
+          files: |
+            release/taisun_agent-${{ needs.build.outputs.version }}.tar.gz
+            release/taisun_agent-${{ needs.build.outputs.version }}.zip
+            release/taisun_agent-${{ needs.build.outputs.version }}.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release summary
+        run: |
+          echo "## Release ${{ needs.build.outputs.version }} Created" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Item | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Version | ${{ needs.build.outputs.version }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Pre-release | ${{ inputs.prerelease || false }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | ✅ Published |" >> $GITHUB_STEP_SUMMARY
+          echo "| Time | $(date -u) |" >> $GITHUB_STEP_SUMMARY

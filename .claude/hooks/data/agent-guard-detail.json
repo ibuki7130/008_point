@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-04-03T17:55:46.615Z",
+  "patterns": [
+    "design"
+  ],
+  "agents": {
+    "dev": [
+      "bug-fixer",
+      "feature-builder",
+      "refactor-specialist",
+      "api-developer",
+      "test-generator",
+      "code-reviewer",
+      "security-scanner",
+      "frontend-developer"
+    ],
+    "media": [
+      "interactive-video-platform",
+      "nanobanana-pro",
+      "agentic-vision",
+      "japanese-text-verifier",
+      "video-agent"
+    ]
+  }
+}

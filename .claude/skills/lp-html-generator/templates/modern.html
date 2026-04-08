@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: #FFFFFF;
+    overflow: hidden;
+  }
+  .top-bar {
+    background: #1A73E8;
+    color: #FFFFFF;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+  }
+  .hero {
+    padding: 60px 80px 40px;
+    text-align: center;
+  }
+  .pre-headline {
+    font-size: 20px;
+    color: #1A73E8;
+    margin-bottom: 16px;
+    letter-spacing: 0.1em;
+    font-weight: normal;
+  }
+  .hero h1 {
+    font-size: 52px;
+    color: #1A1A1A;
+    line-height: 1.5;
+    margin-bottom: 28px;
+    font-weight: bold;
+  }
+  .hero .subtitle {
+    font-size: 22px;
+    color: #555555;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: #1A73E8;
+    margin: 0 auto 40px;
+  }
+  .cta-button {
+    display: inline-block;
+    background: #1A73E8;
+    color: #FFFFFF;
+    padding: 20px 56px;
+    border-radius: 4px;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+  }
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #F8F9FA;
+    border-top: 2px solid #E0E0E0;
+    color: #888888;
+    padding: 14px;
+    text-align: center;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+  <div class="top-bar">{{topBarText}}</div>
+  <div class="hero">
+    <p class="pre-headline">{{preHeadline}}</p>
+    <h1>{{headline}}</h1>
+    <div class="divider"></div>
+    <p class="subtitle">{{subtitle}}</p>
+    <a class="cta-button">{{ctaText}}</a>
+  </div>
+  <div class="bottom-bar">{{bottomBarText}}</div>
+</body>
+</html>

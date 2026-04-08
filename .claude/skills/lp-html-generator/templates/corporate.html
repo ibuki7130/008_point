@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: #0D2B55;
+    overflow: hidden;
+    color: #FFFFFF;
+  }
+  .top-bar {
+    background: #0A2244;
+    border-bottom: 3px solid #3A7BD5;
+    color: #FFFFFF;
+    padding: 16px 40px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+  }
+  .blue-accent {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #3A7BD5, #00D2FF);
+  }
+  .hero {
+    padding: 56px 80px 40px;
+    text-align: center;
+  }
+  .pre-headline {
+    font-size: 18px;
+    color: #3A7BD5;
+    margin-bottom: 20px;
+    letter-spacing: 0.2em;
+    font-weight: normal;
+    background: rgba(58, 123, 213, 0.1);
+    display: inline-block;
+    padding: 6px 20px;
+    border: 1px solid rgba(58, 123, 213, 0.4);
+  }
+  .hero h1 {
+    font-size: 52px;
+    color: #FFFFFF;
+    line-height: 1.5;
+    margin-bottom: 28px;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+  }
+  .hero .subtitle {
+    font-size: 21px;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 44px;
+    line-height: 1.7;
+  }
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-bottom: 44px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-number {
+    font-size: 40px;
+    font-weight: bold;
+    color: #3A7BD5;
+  }
+  .stat-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 4px;
+  }
+  .cta-button {
+    display: inline-block;
+    background: #3A7BD5;
+    color: #FFFFFF;
+    padding: 20px 56px;
+    border-radius: 4px;
+    font-size: 21px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 20px rgba(58, 123, 213, 0.4);
+  }
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #0A2244;
+    border-top: 3px solid #3A7BD5;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 14px;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+  <div class="top-bar">{{topBarText}}</div>
+  <div class="blue-accent"></div>
+  <div class="hero">
+    <p class="pre-headline">{{preHeadline}}</p>
+    <h1>{{headline}}</h1>
+    <p class="subtitle">{{subtitle}}</p>
+    <a class="cta-button">{{ctaText}}</a>
+  </div>
+  <div class="bottom-bar">{{bottomBarText}}</div>
+</body>
+</html>

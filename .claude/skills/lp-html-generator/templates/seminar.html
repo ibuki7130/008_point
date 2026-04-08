@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: #FFFFFF;
+    overflow: hidden;
+  }
+  .top-bar {
+    background: #C0392B;
+    color: #FFFFFF;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+  }
+  .urgency-band {
+    background: #FFF3CD;
+    border-top: 2px solid #FFEAA0;
+    border-bottom: 2px solid #FFEAA0;
+    color: #856404;
+    padding: 10px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+  }
+  .hero {
+    padding: 36px 60px 24px;
+    text-align: center;
+  }
+  .pre-headline {
+    font-size: 20px;
+    color: #C0392B;
+    margin-bottom: 14px;
+    font-weight: bold;
+    border: 2px solid #C0392B;
+    display: inline-block;
+    padding: 6px 20px;
+  }
+  .hero h1 {
+    font-size: 56px;
+    color: #1A1A1A;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    font-weight: 900;
+  }
+  .hero h1 .accent {
+    color: #C0392B;
+  }
+  .hero .subtitle {
+    font-size: 22px;
+    color: #444444;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .benefit-list {
+    text-align: left;
+    display: inline-block;
+    margin-bottom: 32px;
+    background: #FFF5F5;
+    border: 1px solid #FFCCCC;
+    border-radius: 8px;
+    padding: 20px 32px;
+  }
+  .benefit-list li {
+    font-size: 19px;
+    color: #333333;
+    list-style: none;
+    padding: 6px 0;
+    line-height: 1.5;
+  }
+  .benefit-list li::before {
+    content: "✓ ";
+    color: #C0392B;
+    font-weight: bold;
+  }
+  .cta-button {
+    display: block;
+    background: linear-gradient(180deg, #E74C3C, #C0392B);
+    color: #FFFFFF;
+    padding: 22px 0;
+    border-radius: 6px;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    box-shadow: 0 5px 0 #922B21;
+    margin: 0 60px;
+  }
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #C0392B;
+    color: #FFFFFF;
+    padding: 14px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+  <div class="top-bar">{{topBarText}}</div>
+  <div class="urgency-band">{{urgencyText}}</div>
+  <div class="hero">
+    <p class="pre-headline">{{preHeadline}}</p>
+    <h1>{{headline}}</h1>
+    <p class="subtitle">{{subtitle}}</p>
+    <ul class="benefit-list">
+      <li>{{benefit1}}</li>
+      <li>{{benefit2}}</li>
+      <li>{{benefit3}}</li>
+    </ul>
+    <a class="cta-button">{{ctaText}}</a>
+  </div>
+  <div class="bottom-bar">{{bottomBarText}}</div>
+</body>
+</html>

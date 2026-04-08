@@ -1,0 +1,19 @@
+# Claude Code スキャン除外リスト
+node_modules/
+dist/
+.next/
+build/
+.cache/
+*.log
+*.db
+*.sqlite
+.env
+.env.*
+*.pem
+*.key
+.agent-trace/
+work/jobs/
+research/runs/
+__pycache__/
+.python-version
+*.pyc

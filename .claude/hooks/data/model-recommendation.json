@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-04-08T23:47:24.961Z",
+  "complexity": "trivial",
+  "confidence": 97,
+  "taskModel": "haiku",
+  "claudeCodeModel": "haiku",
+  "litellmModel": null,
+  "description": "挨拶・確認・単純応答",
+  "reason": "入力長 8文字による推定",
+  "previousModel": "haiku",
+  "switched": false
+}

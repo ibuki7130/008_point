@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-17T10:16:20.521Z",
+  "source": "Bash: cat bigfile...",
+  "charCount": 7000,
+  "lineCount": 1,
+  "exceedsCharThreshold": true,
+  "exceedsLineThreshold": false,
+  "recommendation": "Praetorian compactまたはmemory_addで保存してからコンテキストに含めてください"
+}

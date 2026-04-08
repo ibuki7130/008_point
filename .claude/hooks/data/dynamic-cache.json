@@ -1,0 +1,70 @@
+{
+  "version": "1.0.0",
+  "entries": {
+    "/Users/matsumototoshihiko/Desktop/開発2026/taisun_agent2026/.claude/rules/CLAUDE.md": {
+      "cached": "2026-02-15T13:13:17.210Z",
+      "mtime": "1770774066212.5537",
+      "result": {
+        "content": "<claude-mem-context>\n# Recent Activity\n\n*No recent activity*\n</claude-mem-context>",
+        "originalSize": 169,
+        "compressedSize": 82,
+        "saved": 87,
+        "detailLevel": "standard",
+        "linesOriginal": 7,
+        "linesCompressed": 5
+      }
+    },
+    "/Users/matsumototoshihiko/Desktop/開発2026/taisun_agent2026/.claude/rules/auto-model-switch.md": {
+      "cached": "2026-02-15T13:13:17.212Z",
+      "mtime": "1771008463039.6003",
+      "result": {
+        "content": "# LLM Auto-Switch Rules\n\n## Overview\n\nサブエージェント（Task tool）起動時に、hookが書き出した推奨モデルを自動適用する。\n切替を行った場合は毎回報告するが、作業は止めない。\n\n---\n\n## 自動切替の仕組み\n\n```\nUserPromptSubmit hook\n  → model-auto-switch.js が入力を解析\n  → .claude/hooks/data/model-recommendation.json に推奨モデルを書き出し\n  → AIがTask tool起動時にこのファイルを参照\n  → model パラメータを自動設定\n```\n\n## 推奨モデル参照ルール（MANDATORY）\n\n### Task tool 起動時\n\nサブエージェントを起動する際、以下の手順で model パラメータを決定する:\n\n1. `.claude/hooks/data/model-recommendation.json` を参照\n2. `taskModel` フィールドの値を Task tool の `model` パラメータに設定\n3. 切替が発生した場合（前回と異なるモデル）、ユーザーに1行で報告\n\n### 推奨モデルマッピング\n\n| recommendation.json の taskModel | Task tool の model |\n|----------------------------------|-------------------|\n| `haiku` | `\"haiku\"` |\n| `sonnet` | `\"sonnet\"` |\n| `opus` | `\"opus\"` |\n\n### 報告フォーマット\n\n切替時の報告（作業を止めずに1行で）:\n```\n[Auto-Switch] {complexity} -> {model} (信頼度{confidence}%)\n```\n\n## 複雑度→モデル対応表\n\n| 複雑度 | モデル | 用途 |\n|--------|--------|------|\n| trivial | haiku | 挨拶・確認・単純応答 |\n| simple | haiku | 検索・一覧表示・状況確認 |\n| moderate | sonnet | ファイル修正・関数追加・テスト作成 |\n| complex | sonnet | 新機能実装・API構築・マルチファイル変更 |\n| expert | opus | アーキテクチャ設計・セキュリティ監査・大規模リファクタリング |\n\n## 例外ルール\n\n- recommendation.json が存在しない場合: `sonnet` をデフォルトとする\n- ファイル読み取りエラーの場合: `sonnet` をデフォルトとする\n- ユーザーが明示的にモデルを指定した場合: ユーザー指定を優先\n- 予算超過（BudgetStatus.isOverBudget）の場合: `haiku` にフォールバック\n\n## 注意事項\n\n- この自動切替はサブエージェント（Task tool）にのみ適用\n- メインセッションのモデルは変更しない（Claude Code の制約）\n- hookは非ブロッキング（stderr出力のみ、exit 0固定）\n",
+        "originalSize": 1408,
+        "compressedSize": 1408,
+        "saved": 0,
+        "detailLevel": "standard",
+        "linesOriginal": 67,
+        "linesCompressed": 67
+      }
+    },
+    "/Users/matsumototoshihiko/Desktop/開発2026/taisun_agent2026/.claude/rules/context-management.md": {
+      "cached": "2026-02-15T13:13:17.212Z",
+      "mtime": "1770774066221.9338",
+      "result": {
+        "content": "# Context Management Guidelines\n\n## Overview\n\nコンテキストウィンドウを効率的に使用し、セッション品質を維持するためのガイドライン。\n\n**重要**: これはガイドラインであり、強制ルールではない。品質が最優先。必要であれば超えて良い。\n\n---\n\n## MCP Server Management\n\n### 推奨設定\n\n| 項目 | 推奨値 | 理由 |\n|------|--------|------|\n| 登録MCPサーバー | 20-30個 | 選択肢を確保 |\n| 有効化MCP | **10個以下** | コンテキスト縮小防止 |\n| アクティブツール | **80個以下** | 200k→70k縮小を防ぐ |\n\n### プロジェクト別無効化\n\n必要なMCPのみ有効化し、不要なものは無効化する:\n\n```json\n{\n  \"disabledMcpServers\": [\n    \"server-name-1\",\n    \"server-name-2\"\n  ]\n}\n```\n\n---\n\n## Tool Usage Efficiency\n\n### 効率的なパターン\n\n```\n1. まずGlobで対象を絞る\n   → 全ファイル読み込みを避ける\n\n2. Grepでパターン検索\n   → 関連箇所を特定してからRead\n\n3. 必要なファイルのみRead\n   → 行数指定で部分読み込み可能\n```\n\n### タスク別の目安（強制ではない）\n\n| タスク | Glob | Read | Grep |\n|--------|------|------|------|\n| コードレビュー | 少 | 多 | 少 |\n| バグ調査 | 少 | 中 | 多 |\n| リファクタリング | 中 | 多 | 少 |\n| 検索タスク | 多 | 少 | 多 |\n\n**品質が最優先。必要であれば上記を超えて良い。**\n\n---\n\n## Context Low Prevention\n\n### 警告サイン\n\n- `/compact` の提案が出る\n- レスポンスが途切れる\n- 同じ内容を繰り返す\n\n### 対処法\n\n1. **即座に `/compact` を実行**\n2. 新しいセッションを開始\n3. 大きなファイルは行番号指定で部分読み\n\n### 予防策（推奨）\n\n```bash\n# 大きなログを全部読まない\ngrep -i error run.log | tail -10   # ❌ Bash使用\n# → Grep ツールで必要な行だけ取得  # ✅\n\n# 出力を抑制\nnpm install > /dev/null 2>&1       # 出力不要なら抑制\n\n# バックグラウンド実行\nnpm run build &                    # 完了を待たない\n```\n\n---\n\n## Large File Handling\n\n### 推奨アプローチ\n\n| ファイルサイズ | アプローチ |\n|---------------|-----------|\n| < 500行 | 全体読み込みOK |\n\n... (truncated to 100 lines, use /help-advanced or /help-expert for full content)",
+        "originalSize": 2068,
+        "compressedSize": 1419,
+        "saved": 649,
+        "detailLevel": "standard",
+        "linesOriginal": 159,
+        "linesCompressed": 101
+      }
+    },
+    "/Users/matsumototoshihiko/Desktop/開発2026/taisun_agent2026/.claude/rules/url-learning-pipeline.md": {
+      "cached": "2026-02-15T13:13:17.212Z",
+      "mtime": "1771008463039.7",
+      "result": {
+        "content": "# URL Learning Pipeline Rules\n\n## Overview\n\nURL分析（url-all / url-deep-analysis）実行後に、自動的にメモリ保存し、\n内容がノウハウ・技術の場合はスキル化を提案するパイプライン。\n\n---\n\n## パイプラインフロー\n\n```\nURL分析実行（url-all / url-deep-analysis）\n  → Phase 1: コンテンツ理解・要約\n  → Phase 2: Praetorian compact で自動メモリ保存\n  → Phase 3: ノウハウ判定\n  → Phase 4: スキル化提案（ノウハウの場合のみ）\n  → Phase 5: ユーザー承認後にスキル生成\n```\n\n## Phase 1: コンテンツ理解\n\nURL分析スキル（url-all / url-deep-analysis）実行後、以下を抽出:\n\n- サイトのメインコンテンツ（文章・テキスト）\n- 技術構造（HTML/CSS/JS構成）\n- 主要リンク・ナビゲーション\n- コンテンツのカテゴリ判定\n\n## Phase 2: 自動メモリ保存（MANDATORY）\n\nURL分析完了後、**必ず** Praetorian compact で結果を保存する:\n\n```\nmcp__praetorian__praetorian_compact({\n  type: \"web_research\",\n  title: \"{サイト名} - {カテゴリ}\",\n  source: \"{URL}\",\n  key_insights: [...],        // 主要な発見・ポイント\n  findings: [...],            // 詳細な発見\n  techniques: {...},          // 技術・パターン（該当する場合）\n  recommendations: [...],     // 次のアクション\n})\n```\n\n## Phase 3: ノウハウ判定\n\n以下の基準でコンテンツがノウハウ・技術かどうかを判定:\n\n### ノウハウと判定する条件（いずれかに該当）\n\n| カテゴリ | 判定基準 |\n|---------|---------|\n| 技術記事 | プログラミング、設計パターン、ツール使い方 |\n| マーケティング手法 | セールスコピー、LP構成、広告運用テクニック |\n| ビジネス戦略 | 営業手法、顧客獲得、成長戦略 |\n| ワークフロー | 自動化手順、効率化テクニック、運用ノウハウ |\n| デザインパターン | UI/UX手法、レイアウト原則 |\n\n### ノウハウではないもの\n\n- ニュース記事（情報のみ）\n- 企業概要・会社情報\n- 商品カタログ・価格表\n- 利用規約・プライバシーポリシー\n\n## Phase 4: スキル化提案\n\nノウハウと判定された場合、ユーザーに確認する:\n\n```\nAskUserQuestion({\n  questions: [{\n    question: \"この内容をスキル化しますか？\",\n    header: \"スキル化\",\n    options: [\n      { label: \"スキル化する\", description: \"習得した内容を再利用可能なスキルとして保存\" },\n      { label: \"メモリ保存のみ\", description: \"Praetorianに保存済み。スキル化は不要\" }\n    ]\n  }]\n})\n```\n\n## Phase 5: スキル生成\n\nユーザーが「スキル化する」を選択した場合:\n\n1. `/skill-create` スキルを使用してスキルを生成\n2. 生成されたスキルの概要をユーザーに報告\n3. スキルが正常に作成されたことを確認\n\n## 自動保存するメタデータ\n\n| フィールド | 内容 |\n|-----------|------|\n| source | 元URL |\n| title | サイト名 + カテゴリ |\n| type | `web_research` |\n| key_insights | 3-5個のキーポイント |\n| techniques | 識別されたテクニック/パターン |\n\n... (truncated to 100 lines, use /help-advanced or /help-expert for full content)",
+        "originalSize": 2045,
+        "compressedSize": 1898,
+        "saved": 147,
+        "detailLevel": "standard",
+        "linesOriginal": 111,
+        "linesCompressed": 101
+      }
+    },
+    "/Users/matsumototoshihiko/Desktop/開発2026/taisun_agent2026/.claude/CLAUDE.md": {
+      "cached": "2026-02-15T13:13:17.213Z",
+      "mtime": "1771161007517.8662",
+      "result": {
+        "content": "# TAISUN v2 - Ultimate Unified System\n\n## WORKFLOW FIDELITY CONTRACT\n\n### 1. Faithful Execution\nWhen user says \"same workflow\" or \"use XX skill\", it is a **contract**.\n- No shortcuts, simplifications, or substitutions\n- Deviations require **explicit pre-approval**\n\n### 2. Respect Existing Artifacts\n- **Never create new scripts without Reading existing ones first**\n- **Always Read before modifying any file**\n- **Baseline-registered files are immutable**\n\n### 3. No Unauthorized Actions\n- Deviations MUST be confirmed: \"This action is not in the instructions. May I proceed?\"\n- **Never deviate without explicit user approval**\n\n### 4. Session Continuity\n- Check `.workflow_state.json` (auto-injected)\n- Read `SESSION_HANDOFF.md` if present\n- Never contradict current phase\n\n### 5. Skill Compliance\nWhen \"use XX skill\" is specified: **MUST use Skill tool**. Manual implementation is PROHIBITED.\n\n## System Overview\n\n| Component | Count | Reference |\n|-----------|-------|-----------|\n| Agents | 14 | `/agent-catalog` |\n| Skills | 60 | `/skill-catalog` |\n| Commands | 82 | Shortcut commands |\n| MCP Servers | 8 | Core servers |\n\n## Pre-Flight Checks\n\nBefore starting work:\n- [ ] Skill instruction? -> Use Skill tool\n- [ ] \"Same workflow\"? -> Read existing files first\n- [ ] SESSION_HANDOFF.md exists? -> Read it\n- [ ] Summary ratio specified? -> Follow exactly\n\n**VIOLATION = CRITICAL ERROR** -> Stop -> Apologize -> Record in `.claude/hooks/mistakes.md` -> Re-execute correctly\n\n## Language\n- Japanese priority\n- Technical terms in English OK\n- Use marketing terminology appropriately\n\n## Detailed References\n\nFor detailed rules, mappings, and expert workflows:\n- **L2** (defense layers, skill mapping, guidelines): `.claude/references/CLAUDE-L2.md`\n- **L3** (specialized workflows, audio preprocessing): `.claude/references/CLAUDE-L3.md`\n",
+        "originalSize": 1840,
+        "compressedSize": 1840,
+        "saved": 0,
+        "detailLevel": "standard",
+        "linesOriginal": 56,
+        "linesCompressed": 56
+      }
+    }
+  }
+}

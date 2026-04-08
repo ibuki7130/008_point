@@ -1,0 +1,86 @@
+{
+  "_comment": "スキルプロファイル定義 — install.sh が参照する",
+  "profiles": {
+    "core": {
+      "description": "必須スキル — 全ユーザーに必要な基本機能",
+      "skills": [
+        "research", "research-free", "research-system", "research-cited-report", "unified-research",
+        "mega-research", "mega-research-plus", "omega-research", "world-research",
+        "deep-research-grok", "gem-research", "intelligence-research",
+        "gpt-researcher", "apify-research",
+        "keyword-free", "keyword-mega-extractor", "keyword-to-gem",
+        "codegraph", "context7-docs", "firecrawl", "stagehand",
+        "url-all", "url-deep-analysis", "note-research",
+        "sdd-full", "sdd-design", "sdd-adr", "sdd-context",
+        "sdd-event-storming", "sdd-glossary", "sdd-guardrails",
+        "sdd-req100", "sdd-runbook", "sdd-slo", "sdd-stakeholder", "sdd-tasks", "sdd-threat",
+        "taiyo-style", "taiyo-analyzer", "taiyo-rewriter",
+        "taiyo-style-bullet", "taiyo-style-headline", "taiyo-style-lp",
+        "taiyo-style-ps", "taiyo-style-sales-letter", "taiyo-style-step-mail", "taiyo-style-vsl",
+        "copywriting-helper",
+        "nanobanana-pro", "nanobanana-prompts",
+        "lp-analysis", "lp-analytics", "lp-design", "lp-full-generation",
+        "lp-html-generator", "lp-json-generator", "lp-local-generator", "lp-style-library", "mendan-lp",
+        "funnel-builder", "lead-scoring", "outreach-composer", "sales-systems", "customer-support-120",
+        "ai-sdr", "line-marketing", "note-marketing", "sns-marketing", "sns-patterns",
+        "kindle-publishing",
+        "pdf-processing", "pdf-automation-gotenberg", "doc-convert-pandoc",
+        "education-framework", "diagram-illustration",
+        "batch", "phase1-tools", "phase2-monitoring",
+        "opencode-fix", "opencode-ralph-loop", "opencode-setup",
+        "skill-validator", "agent-trace", "dual-ai-review",
+        "security-scan-trivy", "workflow-automation-n8n", "unified-notifications-apprise",
+        "postgres-mcp-analyst",
+        "hierarchical-memory", "qdrant-memory", "notion-knowledge-mcp",
+        "agentic-vision"
+      ]
+    },
+    "video": {
+      "description": "動画・アニメ・コンテンツ制作スキル",
+      "skills": [
+        "video-agent", "video-download", "shorts-create", "launch-video",
+        "youtube-content", "youtube-thumbnail", "youtube_channel_summary",
+        "ai-manga-generator", "anime-production", "anime-slide-generator", "custom-character",
+        "story-pattern-delayed-rescue", "story-pattern-flawed-hero",
+        "story-pattern-inner-conflict", "story-pattern-systemic-wall", "story-pattern-witness-reversal",
+        "telop", "omnihuman1-video",
+        "gpt-sovits-tts", "japanese-tts-reading"
+      ]
+    },
+    "x-sns": {
+      "description": "X(Twitter)/SNS自動投稿スキル",
+      "skills": [
+        "x-bijinesu", "xtaiou"
+      ]
+    },
+    "docker": {
+      "description": "Docker/コンテナ運用スキル",
+      "skills": [
+        "docker-mcp-ops"
+      ]
+    },
+    "figma": {
+      "description": "Figmaデザイン連携スキル",
+      "skills": [
+        "figma-design"
+      ]
+    },
+    "deep-research": {
+      "description": "ディープリサーチ拡張モジュール",
+      "skills": [
+        "dr-build", "dr-explore", "dr-mcp-setup", "dr-synthesize"
+      ]
+    },
+    "voice": {
+      "description": "音声AI・TTS連携スキル",
+      "skills": [
+        "voice-ai"
+      ]
+    }
+  },
+  "presets": {
+    "minimal": ["core"],
+    "standard": ["core", "video", "x-sns"],
+    "full": ["core", "video", "x-sns", "docker", "figma", "deep-research", "voice"]
+  }
+}

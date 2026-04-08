@@ -1,0 +1,73 @@
+{
+  "_comment": "中央Phase管理ファイル — 各hookのPhaseを一元管理。環境変数で上書き可能",
+  "_phases": {
+    "0": "完全無効",
+    "1": "警告のみ（ログ記録）",
+    "2": "物理ブロック有効"
+  },
+  "_usage": [
+    "このファイルを編集すると全hookのPhaseが一括変更される。",
+    "個別のhookのみ変更したい場合は環境変数を使用:",
+    "  export CHECKPOINT_GUARD_PHASE=2",
+    "環境変数が設定されていればそちらが優先される（hook単位のオーバーライド）"
+  ],
+  "global": {
+    "defaultPhase": "1"
+  },
+  "hooks": {
+    "checkpoint-guard": {
+      "phase": "1",
+      "envVar": "CHECKPOINT_GUARD_PHASE",
+      "description": "Boot sequence完了を物理確認"
+    },
+    "agent-checkpoint-guard": {
+      "phase": "1",
+      "envVar": "AGENT_CHECKPOINT_PHASE",
+      "description": "重要Agent起動時のAGENT CHECKPOINTマーカー必須化"
+    },
+    "rules-enforce-guard": {
+      "phase": "1",
+      "envVar": "RULES_ENFORCE_PHASE",
+      "description": "mistakes.md必須Read + サブエージェント迂回対策"
+    },
+    "research-quality-guard": {
+      "phase": "1",
+      "envVar": "RESEARCH_QUALITY_PHASE",
+      "description": "リサーチ出力の10カテゴリ網羅確認"
+    },
+    "cost-hard-stop-guard": {
+      "phase": "1",
+      "envVar": "COST_HARD_STOP_PHASE",
+      "description": "コスト上限のハードストップ"
+    },
+    "mistake-pattern-matcher": {
+      "phase": "1",
+      "envVar": "MISTAKE_MATCHER_PHASE",
+      "description": "過去ミスパターンとの自動照合"
+    },
+    "context-snapshot-manager": {
+      "phase": "1",
+      "envVar": "CONTEXT_SNAPSHOT_PHASE",
+      "description": "コンパクト前後の記憶保護"
+    },
+    "mid-session-reminder": {
+      "phase": "1",
+      "envVar": "MID_SESSION_REMINDER_PHASE",
+      "description": "長時間セッションのコアルール再注入"
+    }
+  },
+  "limits": {
+    "cost-hard-stop": {
+      "dailyLimit": 50,
+      "monthlyLimit": 500,
+      "envVars": {
+        "daily": "COST_HARD_STOP_DAILY_LIMIT",
+        "monthly": "COST_HARD_STOP_MONTHLY_LIMIT"
+      }
+    },
+    "mid-session-reminder": {
+      "intervalPrompts": 5,
+      "envVar": "MID_SESSION_REMINDER_INTERVAL"
+    }
+  }
+}

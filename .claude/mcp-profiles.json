@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "description": "MCP Server Profile Configuration - 開発/セキュア/マーケティングモード別MCP有効化プロファイル",
+  "activeProfile": "development",
+
+  "profiles": {
+    "development": {
+      "description": "開発モード — コード管理・推論・ドキュメント重視",
+      "enabledServers": [
+        "taisun-proxy",
+        "playwright",
+        "context7",
+        "sequential-thinking",
+        "qdrant",
+        "n8n-mcp",
+        "figma"
+      ],
+      "disabledServers": [
+        "meta-ads",
+        "facebook-ads-library",
+        "twitter-client",
+        "apify",
+        "firecrawl",
+        "stagehand",
+        "skyvern",
+        "tavily",
+        "obsidian",
+        "line-bot",
+        "voice-ai",
+        "ai-sdr"
+      ],
+      "note": "GitHub/Sequential Thinking/Context7 を中心に開発タスクに特化。SNS/広告系は無効化。"
+    },
+
+    "secure": {
+      "description": "セキュアモード — 最小権限。外部ネットワーク接続を最小化",
+      "enabledServers": [
+        "taisun-proxy",
+        "qdrant",
+        "sequential-thinking"
+      ],
+      "disabledServers": [
+        "playwright",
+        "context7",
+        "github",
+        "n8n-mcp",
+        "figma",
+        "meta-ads",
+        "facebook-ads-library",
+        "twitter-client",
+        "apify",
+        "firecrawl",
+        "stagehand",
+        "skyvern",
+        "tavily",
+        "obsidian",
+        "line-bot",
+        "voice-ai",
+        "ai-sdr",
+        "open-websearch",
+        "youtube"
+      ],
+      "note": "外部API呼び出しを最小化。ローカルのみで動作するサーバーに制限。セキュリティ審査・機密データ処理時に使用。"
+    },
+
+    "marketing": {
+      "description": "マーケティングモード — 広告・SNS・Web分析重視",
+      "enabledServers": [
+        "taisun-proxy",
+        "meta-ads",
+        "facebook-ads-library",
+        "twitter-client",
+        "apify",
+        "firecrawl",
+        "tavily",
+        "playwright",
+        "stagehand",
+        "obsidian",
+        "sequential-thinking"
+      ],
+      "disabledServers": [
+        "github",
+        "context7",
+        "n8n-mcp",
+        "figma",
+        "qdrant",
+        "line-bot",
+        "voice-ai",
+        "ai-sdr",
+        "skyvern",
+        "open-websearch",
+        "youtube"
+      ],
+      "note": "Meta Ads/Twitter/Firecrawl/Apifyを中心にマーケティング分析特化。開発系ツールは無効化。"
+    }
+  },
+
+  "usage": {
+    "switchProfile": "node .claude/scripts/switch-mcp-profile.js [development|secure|marketing]",
+    "viewCurrent": "node .claude/scripts/switch-mcp-profile.js --status",
+    "note": "プロファイル切替後はClaude Codeを再起動して変更を反映させてください"
+  }
+}

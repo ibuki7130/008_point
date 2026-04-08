@@ -1,0 +1,52 @@
+{
+  "version": 2,
+  "timestamp": "2026-04-02T00:25:41.771Z",
+  "workDir": "/Users/matsumototoshihiko/Desktop/01_開発プロジェクト/dev/gem自動生成システム",
+  "scripts": [
+    {
+      "path": "gems_batch/auto_create_gems.py",
+      "size": 19356,
+      "modified": "2026-02-26T19:30:33.501Z"
+    },
+    {
+      "path": "gems_batch/generate_all_gems.py",
+      "size": 79445,
+      "modified": "2026-02-26T18:14:49.269Z"
+    },
+    {
+      "path": "marketing-ai-factory/auto_gem_generator/gem_batch_processor.py",
+      "size": 15049,
+      "modified": "2026-02-06T22:53:26.286Z"
+    },
+    {
+      "path": "marketing-ai-factory/auto_gem_generator/generate.sh",
+      "size": 960,
+      "modified": "2026-02-06T14:41:55.142Z"
+    },
+    {
+      "path": "marketing-ai-factory/examples/generate_skill_example.py",
+      "size": 4266,
+      "modified": "2026-02-05T11:18:23.753Z"
+    },
+    {
+      "path": "marketing-ai-factory/run_mcp_server.py",
+      "size": 1061,
+      "modified": "2026-02-05T11:15:46.454Z"
+    },
+    {
+      "path": "marketing-ai-factory/run_tests.sh",
+      "size": 2820,
+      "modified": "2026-02-05T11:22:00.458Z"
+    },
+    {
+      "path": "meta_ad_scraper/main.py",
+      "size": 10509,
+      "modified": "2026-02-02T16:25:19.051Z"
+    }
+  ],
+  "workflows": [],
+  "outputs": [],
+  "blockers": [],
+  "decisions": [],
+  "nextActions": []
+}
